@@ -1,0 +1,7 @@
+This doesn't work.
+
+It compiles, but rustc complains extensively about variables being unused despite being used.
+
+It links, but generates no text section.
+
+I don't know how many times I've come back to this to try and make it work, but it always ends like this. How on earth do you create a toolchain and build environment so unusuable and hostile to debug?

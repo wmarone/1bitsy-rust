@@ -1,0 +1,17 @@
+[package]
+name = "bitsyrs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build]
+target = "thumbv7m-none-eabi"
+
+[dependencies]
+cortex-m = "0.7"
+cortex-m-rt = "0.7"
+stm32f4 = "0.15"
+stm32f4xx-hal = { version = "0.15", features = ["rt", "stm32f415"] }
+embedded-hal = "0.2"
+rtt-target = {version="0.3.1",  features = ["cortex-m"]}
