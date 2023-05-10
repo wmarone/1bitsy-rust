@@ -1,5 +1,5 @@
 [build]
-target = "thumbv7m-none-eabi"
-rustflags = ["-Clink-arg=-Tmemory.x",
+target = "thumbv7em-none-eabihf"
+rustflags = ["-Clink-arg=-Tlink.x",
              "-Clink-arg=-Map=bitsyrs.map",
 ]

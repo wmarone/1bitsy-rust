@@ -5,8 +5,9 @@ MEMORY
   RAM : ORIGIN = 0x20000000, LENGTH = 192K
 }
 
-_stack_start = ORIGIN(RAM) + LENGTH(RAM);
+__STACK_START = ORIGIN(RAM) + LENGTH(RAM);
 
+/*
 SECTIONS
 {
     .text : {
@@ -18,3 +19,4 @@ SECTIONS
         . = ALIGN(4);
     } > RAM
 }
+*/
