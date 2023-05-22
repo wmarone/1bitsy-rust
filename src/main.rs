@@ -1,53 +1,44 @@
+//! Demonstrate the use of a blocking `Delay` using the SYST (sysclock) timer.
+
+#![deny(unsafe_code)]
+#![allow(clippy::empty_loop)]
 #![no_main]
 #![no_std]
 
-#[allow(unused_imports)]
-#[allow(unused_variables)]
+// Halt on panic
+//use panic_halt as _; // panic handler
 
 use core::panic::PanicInfo;
-use cortex_m_rt::{entry, exception};
+use cortex_m_rt::entry;
+use stm32f4xx_hal as hal;
 
-use stm32f4xx_hal::{pac, prelude::*}; // the rcc import is unused.
-
-use rtt_target::{rtt_init_print, rprintln};
+use crate::hal::{pac, prelude::*};
 
 #[entry]
 fn main() -> ! {
-    //rtt_init_print!();
+    if let (Some(dp), Some(cp)) = (
+        pac::Peripherals::take(),
+        cortex_m::peripheral::Peripherals::take(),
+    ) {
+        // 1Bitsy LED is on GPIOA, PA8 
+        let gpioa = dp.GPIOA.split();
+        let mut led = gpioa.pa8.into_push_pull_output();
 
-    //let device = pac::Peripherals::take().unwrap();
-    //let core = cortex_m::Peripherals::take().unwrap();
+        // Set up the system clock. We want to run at 168MHz for this one.
+        let rcc = dp.RCC.constrain();
+        let clocks = rcc.cfgr.sysclk(168.MHz()).freeze();
 
-    //let rcc = device.RCC.constrain();
-    //let clocks = rcc
-    //    .cfgr
-    //    .use_hse(8.MHz())
-    //    .sysclk(168.MHz())
-    //    .pclk1(24.MHz())
-    //    .i2s_clk(86.MHz())
-    //    .require_pll48clk()
-    //    .freeze();
+        // Create a delay abstraction based on SysTick
+        let mut delay = cp.SYST.delay(&clocks);
 
-    //let _ = device.SYSCFG.constrain();
-
-    //let gpioa = device.GPIOA.split();
-
-    //let mut led = gpioa.pa5.into_push_pull_output();
-
-    //let mut delay = device.TIM2.delay_ms(&clocks);
-
-    //rprintln!("y a ba ba ba ba");
-
-    loop { 
-
-    //    led.toggle();
-    //    delay.delay_ms(200u16);
+        loop {
+            // On for 1s, off for 1s.
+            led.toggle();
+            delay.delay_ms(1000_u32);
+        }
     }
 
-}
-
-#[exception]
-fn SysTick() {
+    loop {}
 }
 
 #[panic_handler]

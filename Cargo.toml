@@ -12,6 +12,6 @@ target = "thumbv7em-none-eabihf"
 cortex-m = "0.7"
 cortex-m-rt = "0.7"
 stm32f4 = "0.15"
-stm32f4xx-hal = { version = "0.15", features = ["rt", "stm32f415"] }
+stm32f4xx-hal = { version = "0.15", features = ["stm32f415"] }
 embedded-hal = "0.2"
 rtt-target = {version="0.3.1",  features = ["cortex-m"]}
